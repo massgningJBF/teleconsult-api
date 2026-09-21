@@ -1,0 +1,15 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-prod-secret}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-prod-jwt-secret}
+      - DATABASE_URL=sqlite:////data/app.db
+      - FLASK_ENV=prod
+    volumes:
+      - db_data:/data
+
+volumes:
+  db_data:
