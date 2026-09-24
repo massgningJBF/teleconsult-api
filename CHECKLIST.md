@@ -4,7 +4,7 @@
 - [ ] DEBUG = False en production
 - [ ] base derriere plusieurs workers Gunicorn
 - [ ] rate limiting actif sur /api/v1/auth/login
-- [ ] CORS restreint aux origines connues (actuellement `*`, a restreindre avant prod)
+- [ ] CORS restreint aux origines connues (actuellement `*` car pas de frontend dedie dans ce projet — a restreindre a l'origine reelle du client avant toute mise en prod)
 - [ ] en-tetes de securite presents
 - [ ] erreurs JSON uniformes, pas de stacktrace exposee
 - [ ] healthcheck /health verifiant la base
