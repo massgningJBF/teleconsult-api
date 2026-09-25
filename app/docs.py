@@ -19,6 +19,12 @@ def build_spec():
     spec.components.schema("Slot", schema=SlotSchema)
     spec.components.schema("AppointmentCreate", schema=AppointmentCreateSchema)
 
+    # Schema de securite JWT : fait apparaitre le bouton "Authorize" dans Swagger UI
+    spec.components.security_scheme(
+        "bearerAuth",
+        {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"},
+    )
+
     spec.path(
         path="/api/v1/auth/register",
         operations={"post": {"requestBody": {"content": {"application/json": {"schema": "Register"}}},
@@ -33,15 +39,18 @@ def build_spec():
         path="/api/v1/slots/",
         operations={
             "get": {"responses": {"200": {"description": "Liste paginee des creneaux"}}},
-            "post": {"requestBody": {"content": {"application/json": {"schema": "Slot"}}},
+            "post": {"security": [{"bearerAuth": []}],
+                      "requestBody": {"content": {"application/json": {"schema": "Slot"}}},
                       "responses": {"201": {"description": "Creneau cree (medecin uniquement)"}}},
         },
     )
     spec.path(
         path="/api/v1/appointments/",
         operations={
-            "get": {"responses": {"200": {"description": "Mes rendez-vous"}}},
-            "post": {"requestBody": {"content": {"application/json": {"schema": "AppointmentCreate"}}},
+            "get": {"security": [{"bearerAuth": []}],
+                     "responses": {"200": {"description": "Mes rendez-vous"}}},
+            "post": {"security": [{"bearerAuth": []}],
+                      "requestBody": {"content": {"application/json": {"schema": "AppointmentCreate"}}},
                       "responses": {"201": {"description": "Rendez-vous reserve (patient uniquement)"}}},
         },
     )
